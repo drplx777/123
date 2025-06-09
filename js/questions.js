@@ -163,7 +163,7 @@ async function loadAnswers(showMessage = true) {
         
         console.log('Загрузка ответов с сервера...');
         
-        const response = await fetch('http://127.0.0.1:3000/answers/load', {
+        const response = await fetch('/answers/load', {
             method: 'GET',
             headers: {
                 'Accept': 'application/json'

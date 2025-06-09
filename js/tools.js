@@ -98,7 +98,7 @@ function initTools() {
 
     try {
       console.log('Сохранение файла:', fileName);
-      const response = await fetch('http://127.0.0.1:3000/save', {
+              const response = await fetch('/save', {
         method: 'POST',
         credentials: 'include',
         headers: { 

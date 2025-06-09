@@ -98,7 +98,7 @@ let fileListUpdateCount = 0;
 async function updateFileList() {
     try {
         console.log('Обновление списка файлов...');
-        const response = await fetch('http://127.0.0.1:3000/files', {
+        const response = await fetch('/files', {
             method: 'GET',
             credentials: 'include',
             headers: {
@@ -206,7 +206,7 @@ async function updateFileList() {
             errorMessage.textContent = 'Ошибка загрузки списка файлов. Попробуйте позже или обратитесь к администратору.';
         }
         console.error('Исключение при получении списка файлов:', error);
-        console.error('URL запроса:', 'http://127.0.0.1:3000/files');
+                        console.error('URL запроса:', '/files');
         console.error('Ошибка может быть связана с недоступностью сервера или сетевыми проблемами.');
     }
 }
@@ -268,7 +268,7 @@ async function saveMap() {
     console.log('📦 Объединенные данные для сохранения:', fileData);
 
     try {
-        const response = await fetch('http://127.0.0.1:3000/save', {
+        const response = await fetch('/save', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -330,7 +330,7 @@ function getCookie(name) {
  */
 async function checkServerAvailability() {
     try {
-        const response = await fetch('http://127.0.0.1:3000/health', {
+        const response = await fetch('/health', {
             method: 'GET',
             credentials: 'include',
             headers: {
@@ -357,7 +357,7 @@ async function checkAndRefreshToken() {
     }
 
     try {
-        const response = await fetch('http://127.0.0.1:3000/check-token', {
+        const response = await fetch('/check-token', {
             method: 'GET',
             credentials: 'include',
             headers: {
@@ -430,7 +430,7 @@ async function deleteFile(fileName) {
     }
 
     try {
-        const response = await fetch(`http://127.0.0.1:3000/delete/${encodeURIComponent(fileName)}`, {
+        const response = await fetch(`/delete/${encodeURIComponent(fileName)}`, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
@@ -665,7 +665,7 @@ async function loadMap(fileName) {
 
     console.log('Загрузка файла:', fileName);
     try {
-        const response = await fetch(`http://127.0.0.1:3000/load/${encodeURIComponent(fileName)}`, {
+        const response = await fetch(`/load/${encodeURIComponent(fileName)}`, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json'

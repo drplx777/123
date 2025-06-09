@@ -99,7 +99,7 @@ async function register(email, password) {
             throw new Error('Этот email не существует или недоступен');
         }
         console.log('Отправка запроса на регистрацию с данными:', { email, password });
-        const response = await fetch('http://127.0.0.1:3000/register', {
+        const response = await fetch('/register', {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -123,7 +123,7 @@ async function register(email, password) {
         console.log('Куки после регистрации:', document.cookie);
         
         // Verify authentication after registration
-        const verifyResponse = await fetch('http://127.0.0.1:3000/files', {
+        const verifyResponse = await fetch('/files', {
             credentials: 'include',
             headers: {
                 'Accept': 'application/json'
@@ -156,7 +156,7 @@ async function register(email, password) {
 async function checkEmailExistence(email) {
     try {
         console.log('Проверка существования email через серверный endpoint:', email);
-        const response = await fetch(`http://127.0.0.1:3000/verify-email?email=${encodeURIComponent(email)}`, {
+        const response = await fetch(`/verify-email?email=${encodeURIComponent(email)}`, {
             credentials: 'include',
             headers: {
                 'Accept': 'application/json'
@@ -187,7 +187,7 @@ async function login(email, password) {
             throw new Error('Некорректный формат email');
         }
         console.log('Отправка запроса на вход...');
-        const response = await fetch('http://127.0.0.1:3000/login', {
+        const response = await fetch('/login', {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -227,7 +227,7 @@ async function login(email, password) {
         // Проверяем аутентификацию перед обновлением UI
         try {
             console.log('Проверка аутентификации...');
-            const verifyResponse = await fetch('http://127.0.0.1:3000/user/info', {
+            const verifyResponse = await fetch('/user/info', {
                 credentials: 'include',
                 headers: {
                     'Accept': 'application/json'
@@ -269,7 +269,7 @@ async function login(email, password) {
 async function logout() {
     try {
         console.log('Выполняется выход из системы...');
-        const response = await fetch('http://127.0.0.1:3000/logout', {
+        const response = await fetch('/logout', {
             method: 'POST',
             credentials: 'include',
         });
@@ -304,7 +304,7 @@ async function checkAuthStatus() {
             
             if (email) {
                 // Получаем информацию о пользователе с сервера
-                const response = await fetch('http://127.0.0.1:3000/user/info', {
+                const response = await fetch('/user/info', {
                     credentials: 'include',
                     headers: {
                         'Accept': 'application/json'
@@ -444,7 +444,7 @@ async function updateUserRole() {
         return;
     }
     try {
-        const response = await fetch(`http://127.0.0.1:3000/admin/set-role?email=${encodeURIComponent(email)}&role=${role}`, {
+        const response = await fetch(`/admin/set-role?email=${encodeURIComponent(email)}&role=${role}`, {
             method: 'GET',
             credentials: 'include',
             headers: {
@@ -470,7 +470,7 @@ async function updateUserRole() {
  */
 async function loadUserList() {
     try {
-        const usersResponse = await fetch('http://127.0.0.1:3000/admin/users', {
+        const usersResponse = await fetch('/admin/users', {
             credentials: 'include',
             headers: {
                 'Accept': 'application/json'

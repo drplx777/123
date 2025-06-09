@@ -21,7 +21,7 @@ async function loadAdminFileList() {
     fileListLoadTimeout = setTimeout(async () => {
         try {
             console.log('Проверка прав администратора перед запросом списка файлов...');
-            const userResponse = await fetch('http://127.0.0.1:3000/user/info', {
+            const userResponse = await fetch('/user/info', {
                 credentials: 'include',
                 headers: {
                     'Accept': 'application/json'
@@ -42,7 +42,7 @@ async function loadAdminFileList() {
             }
 
             console.log('Запрос списка всех файлов для администратора...');
-            const response = await fetch('http://127.0.0.1:3000/admin/files', {
+            const response = await fetch('/admin/files', {
                 credentials: 'include',
                 headers: {
                     'Accept': 'application/json'
@@ -107,7 +107,7 @@ async function loadSelectedFile() {
             return;
         }
         const [username, fileName] = parts;
-        const response = await fetch(`http://127.0.0.1:3000/admin/load/${username}/${fileName}`, {
+        const response = await fetch(`/admin/load/${username}/${fileName}`, {
             method: 'GET',
             credentials: 'include',
             headers: {
@@ -199,7 +199,7 @@ async function deleteSelectedFile() {
         }
         const [username, fileName] = parts;
         if (confirm(`Вы уверены, что хотите удалить файл ${fileName} пользователя ${username}?`)) {
-            const response = await fetch(`http://127.0.0.1:3000/admin/delete/${username}/${fileName}`, {
+            const response = await fetch(`/admin/delete/${username}/${fileName}`, {
                 method: 'DELETE',
                 credentials: 'include',
                 headers: {
@@ -236,7 +236,7 @@ async function deleteAllFiles() {
     try {
         console.log('Нажата кнопка "Удалить все файлы"');
         if (confirm('Вы уверены, что хотите удалить все файлы всех пользователей? Это действие нельзя отменить.')) {
-            const response = await fetch('http://127.0.0.1:3000/admin/delete-all-files', {
+            const response = await fetch('/admin/delete-all-files', {
                 method: 'DELETE',
                 credentials: 'include',
                 headers: {
@@ -389,7 +389,7 @@ async function viewSelectedFileAnswers() {
         }
         
         const [username, fileName] = parts;
-        const response = await fetch(`http://127.0.0.1:3000/admin/load/${username}/${fileName}`, {
+        const response = await fetch(`/admin/load/${username}/${fileName}`, {
             method: 'GET',
             credentials: 'include',
             headers: {
