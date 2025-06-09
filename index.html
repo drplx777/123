@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map Application</title>
+    <link rel="stylesheet" href="./leaflet/leaflet.css">
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+    <div id="auth-container" class="auth-container">
+        <div class="auth-form">
+            <h2>Вход</h2>
+            <div class="error" style="display: none;"></div>
+            <input type="email" id="username" placeholder="Email" />
+            <input type="password" id="password" placeholder="Пароль" />
+            <button id="auth-submit">Войти</button>
+            <div class="switch-mode">
+                Нет аккаунта? <span id="switch-auth">Зарегистрироваться</span>
+            </div>
+            <div id="registration-extra-fields" style="display: none;">
+            </div>
+        </div>
+    </div>
+
+    <div id="map-container" class="map-container" style="display: none;">
+        <div id="map"></div>
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Search">
+                <button id="search-btn">Search</button>
+            </div>
+            <div class="tools">
+                <button id="add-marker" title="Marker">M</button>
+                <button id="add-line" title="Line">L</button>
+                <button id="add-polygon" title="Polygon">P</button>
+                <button id="delete-object" title="Delete">D</button>
+                <button id="clear-all" title="Clear">C</button>
+                <button id="cancel-tool" title="Отменить выбор" style="background: #eee;">✕</button>
+            </div>
+            <div class="name-editor" style="margin-top: 10px; display: block !important; visibility: visible !important;">
+                <input type="text" id="object-name" placeholder="Название объекта..." style="width: 100%; padding: 8px; margin-bottom: 5px; display: block !important; visibility: visible !important;">
+                <button id="save-name" style="width: 100%; padding: 8px; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; display: block !important; visibility: visible !important;">Сохранить название</button>
+            </div>
+            <div class="file-panel">
+                <input type="text" id="save-file-name" placeholder="File name...">
+                <button id="save-map">Save</button>
+                <select id="load-file-name">
+                    <option value="">Select file...</option>
+                </select>
+                <button id="load-map">Загрузить</button>
+                <button id="delete-file">Удалить выбранное сохранение</button>
+            </div>
+            <div id="admin-file-panel" class="admin-panel" style="display: none;">
+                <h3>Admin Panel - Files</h3>
+                <div class="admin-files">
+                    <select id="admin-file-list" size="5">
+                        <option value="">Select user file...</option>
+                    </select>
+                    <button id="admin-load-file">Load Selected File</button>
+                    <button id="admin-view-answers">Просмотр ответов</button>
+                </div>
+            </div>
+            <div id="admin-role-panel" class="admin-role-panel" style="display: none;">
+                <h3>Admin Panel - Roles</h3>
+                <div id="user-list"></div>
+                <div>
+                    <select id="admin-user-list" style="width: 100%; margin-bottom: 5px;">
+                        <option value="">Выберите пользователя...</option>
+                    </select>
+                    <select id="admin-role-select">
+                        <option value="student">Ученик</option>
+                        <option value="teacher">Учитель</option>
+                        <option value="admin">Администратор</option>
+                    </select>
+                    <button id="admin-update-role">Обновить роль</button>
+                </div>
+            </div>
+            <div class="coordinates">
+                Latitude: <span id="lat">0</span>, Longitude: <span id="lng">0</span>
+            </div>
+            <div id="help-text"></div>
+            <div id="error-message" style="color: red;"></div>
+            <div id="current-file" style="margin-top: 10px; font-weight: bold;"></div>
+        </div>
+        
+        <!-- Секция с вопросами для учеников -->
+        <div id="student-questions" class="student-questions-panel" style="display: none;">
+            <h3>Вопросы для изучения города</h3>
+            <div class="questions-container">
+                <div class="question-item">
+                    <label for="question1">1. Объясните историю возникновения и основные этапы развития города.</label>
+                    <textarea id="question1" placeholder="Введите ваш ответ..."></textarea>
+                </div>
+                
+                <div class="question-item">
+                    <label for="question2">2. Продемонстрируйте на карте роль природных условий и ресурсов в развитии города и жизни горожан.</label>
+                    <textarea id="question2" placeholder="Введите ваш ответ..."></textarea>
+                </div>
+                
+                <div class="question-item">
+                    <label for="question3">3. Определите социально-экономические факторы развития города.</label>
+                    <textarea id="question3" placeholder="Введите ваш ответ..."></textarea>
+                </div>
+                
+                <div class="question-item">
+                    <label for="question4">4. Дайте характеристику населению и трудовым ресурсам города.</label>
+                    <textarea id="question4" placeholder="Введите ваш ответ..."></textarea>
+                </div>
+                
+                <div class="question-item">
+                    <label for="question5">5. Определите народнохозяйственную структуру и функции города.</label>
+                    <textarea id="question5" placeholder="Введите ваш ответ..."></textarea>
+                </div>
+                
+                <div class="question-item">
+                    <label for="question6">6. Продемонстрируйте на карте внутригородское расселение, или территориальную организацию города.</label>
+                    <textarea id="question6" placeholder="Введите ваш ответ..."></textarea>
+                </div>
+                
+                <div class="question-item">
+                    <label for="question7">7. Опишите город в системе расселения страны к которой он принадлежит.</label>
+                    <textarea id="question7" placeholder="Введите ваш ответ..."></textarea>
+                </div>
+                
+                <div class="question-item">
+                    <label for="question8">8. Опишите город и его окружающую среду.</label>
+                    <textarea id="question8" placeholder="Введите ваш ответ..."></textarea>
+                </div>
+                
+                <div class="question-item">
+                    <label for="question9">9. Выявите перспективы развития.</label>
+                    <textarea id="question9" placeholder="Введите ваш ответ..."></textarea>
+                </div>
+                
+                <div class="questions-info">
+                    <p style="margin: 15px 0 0 0; font-size: 14px; color: #666; text-align: center; font-style: italic;">
+                        💡 Ответы автоматически сохраняются и загружаются вместе с картой
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="user-info">
+            <span id="username-display"></span>
+            <button id="logout-btn">Выйти</button>
+            <button id="test-questions-btn" style="margin-left: 10px; background: #667eea; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer;">Вопросы</button>
+        </div>
+    </div>
+    <div id="admin-panel" style="display: none;">
+        <h2>Admin Panel</h2>
+        <select id="admin-file-list"></select>
+        <button id="admin-load-file">Load File</button>
+        <button id="admin-delete-file">Delete Selected File</button>
+        <button id="admin-delete-all-files">Delete All Files</button>
+        <p id="error-message"></p>
+    </div>
+    <div id="file-management" class="auth-section" style="display: none;">
+        <h2>Управление файлами</h2>
+        <label for="load-file-name">Выберите файл для загрузки:</label>
+        <select id="load-file-name"></select>
+        <button id="load-map">Загрузить</button>
+        <ul id="file-list"></ul>
+        <button id="delete-selected-file">Удалить выбранное сохранение</button>
+    </div>
+    <script src="leaflet/leaflet.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/questions.js"></script>
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
