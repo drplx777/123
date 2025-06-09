@@ -1,0 +1,5 @@
+# .env 
+
+JWT_SECRET=your-secure-jwt-secret-key-1234567890
+SESSION_SECRET=your-secure-session-secret-key-0987654321
+NODE_ENV=production 

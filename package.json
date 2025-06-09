@@ -1,0 +1,35 @@
+{
+  "name": "map-application",
+  "version": "1.0.0",
+  "description": "Interactive map application with user authentication",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "start:prod": "NODE_ENV=production pm2-runtime server.js",
+    "start:dev": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "map",
+    "leaflet",
+    "express"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.9.0",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "jsonwebtoken": "^9.0.2",
+    "map-application": "file:",
+    "mssql": "^10.0.4",
+    "mysql2": "^3.14.1",
+    "node-fetch": "^3.3.2",
+    "quickemailverification": "^1.0.4",
+    "sqlite3": "^5.1.7"
+  }
+}

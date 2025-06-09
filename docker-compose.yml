@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: geo-education-app
+    ports:
+      - "3000:3000"
+    volumes:
+      # Монтируем базу данных для постоянного хранения
+      - ./map4.db:/app/map4.db
+      # Монтируем директорию для загрузок
+      - ./uploads:/app/uploads
+      # Монтируем .env файл
+      - ./.env:/app/.env:ro
+    environment:
+      - NODE_ENV=production
+      - JWT_SECRET=${JWT_SECRET:-your_jwt_secret_key_change_in_production}
+      - SESSION_SECRET=${SESSION_SECRET:-your_session_secret_key_change_in_production}
+      - PORT=3000
+      - FRONTEND_URL=http://localhost:3000
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) }).on('error', () => process.exit(1))"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+# Для production с nginx раскомментируйте секцию ниже:
+#  nginx:
+#    image: nginx:alpine
+#    container_name: geo-education-nginx
+#    ports:
+#      - "80:80"
+#      - "443:443"
+#    volumes:
+#      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+#      - ./data/certbot/conf:/etc/letsencrypt
+#      - ./data/certbot/www:/var/www/certbot
+#    depends_on:
+#      - app
+#    restart: unless-stopped
+#    networks:
+#      - app-network 
